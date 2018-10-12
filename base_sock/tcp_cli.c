@@ -6,8 +6,6 @@
 #include <netinet/in.h>
 #include <errno.h>
 
-
-
 int main(int argc, char** argv)
 {
 	int sockfd, ret;
@@ -20,7 +18,7 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	/* 初始化socket */
+	//初始化socket
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (-1 == sockfd)
 	{
@@ -28,13 +26,13 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	/* 初始化 */
+	//初始化
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family = AF_INET;
 	inet_aton(&argv[1], &serv_addr.sin_addr);
 	serv_addr.sin_port = htons(atoi(argv[2]));
 
-	/* 连接 */
+	//连接 
 	ret = connect(sockfd, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 	if(-1 == ret)
 	{
@@ -42,20 +40,7 @@ int main(int argc, char** argv)
 		exit(0);
 	}
 
-	char buf[50];
-	while(1)
-	{
-		int ret = recv(sockfd, buf, 50, 0);
-		if(ret < 0)
-			break;
-		else if(ret == 0)
-		{
-			printf("connect close\n");
-			break;
-		}
-		else
-			printf("get %d bytes:%s\n",(int)strlen(buf), buf);
-	}
+	//read or write
 
 	close(sockfd);
 

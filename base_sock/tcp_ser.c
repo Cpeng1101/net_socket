@@ -24,7 +24,7 @@ int main()
 	struct stat stat_buf;
 	fstat(filefd, &stat_buf);
 
-    /* 初始化socket */
+    //初始化socket 
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (-1 == sockfd)
     {
@@ -35,14 +35,14 @@ int main()
     printf("[socket ok]\n");
 #endif
 
-    /* 初始化 */
+    //初始化
     memset(&socketaddr, 0, sizeof(socketaddr));
     socketaddr.sin_family = AF_INET;
     socketaddr.sin_port = htons(PORT);
     //inet_aton("127.0.0.1", &socketaddr.sin_addr.s_addr);
     socketaddr.sin_addr.s_addr = htonl(INADDR_ANY);
  
-    /* 绑定bind */
+    //绑定bind 
     ret = bind(sockfd, (struct sockaddr *)&socketaddr, sizeof(socketaddr));
     if (-1 == ret)
     {
@@ -53,10 +53,10 @@ int main()
     printf("[bind ok]\n");
 #endif
 
-    /* 监听 */
+    //监听
     listen(sockfd, 10);
 
-    /* 连接 */
+    //连接 
     connect_fd = accept(sockfd, NULL, NULL);
     if(-1 == connect_fd)
     {
@@ -67,7 +67,7 @@ int main()
     printf("[accept ok]\n");
 #endif
 
-    /* read or write */
+    //read or write
 	sendfile(connect_fd, filefd, NULL, stat_buf.st_size);
 
     close(sockfd);
